@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.view.ViewCompat;
 import android.widget.ImageView;
 import android.view.View.OnAttachStateChangeListener;
 import android.view.View;
@@ -115,7 +114,7 @@ class LottieAnimationViewManager extends SimpleViewManager<LottieAnimationView> 
             if (startFrame != -1 && endFrame != -1) {
               view.setMinAndMaxFrame(args.getInt(0), args.getInt(1));
             }
-            if (ViewCompat.isAttachedToWindow(view)) {
+            if (view.isAttachedToWindow()) {
               view.setProgress(0f);
               view.playAnimation();
             } else {
@@ -141,7 +140,7 @@ class LottieAnimationViewManager extends SimpleViewManager<LottieAnimationView> 
       case COMMAND_RESET: {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
           @Override public void run() {
-            if (ViewCompat.isAttachedToWindow(view)) {
+            if (view.isAttachedToWindow()) {
               view.cancelAnimation();
               view.setProgress(0f);
             }
@@ -160,30 +159,6 @@ class LottieAnimationViewManager extends SimpleViewManager<LottieAnimationView> 
   @ReactProp(name = "sourceJson")
   public void setSourceJson(LottieAnimationView view, String json) {
     getOrCreatePropertyManager(view).setAnimationJson(json);
-  }
-
-  /**
-   *
-   * @param view
-   * @param name
-   */
-  @ReactProp(name = "cacheStrategy")
-  public void setCacheStrategy(LottieAnimationView view, String name) {
-    if (name != null) {
-      LottieAnimationView.CacheStrategy strategy = LottieAnimationView.DEFAULT_CACHE_STRATEGY;
-      switch (name) {
-        case "none":
-          strategy = LottieAnimationView.CacheStrategy.None;
-          break;
-        case "weak":
-           strategy = LottieAnimationView.CacheStrategy.Weak;
-           break;
-        case "strong":
-          strategy = LottieAnimationView.CacheStrategy.Strong;
-          break;
-      }
-      getOrCreatePropertyManager(view).setCacheStrategy(strategy);
-    }
   }
 
   @ReactProp(name = "resizeMode")
@@ -212,11 +187,6 @@ class LottieAnimationViewManager extends SimpleViewManager<LottieAnimationView> 
   @ReactProp(name = "loop")
   public void setLoop(LottieAnimationView view, boolean loop) {
     getOrCreatePropertyManager(view).setLoop(loop);
-  }
-
-  @ReactProp(name = "hardwareAccelerationAndroid")
-  public void setHardwareAcceleration(LottieAnimationView view, boolean use) {
-    getOrCreatePropertyManager(view).setUseHardwareAcceleration(use);
   }
 
   @ReactProp(name = "imageAssetsFolder")

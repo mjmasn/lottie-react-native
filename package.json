@@ -1,6 +1,6 @@
 {
-  "name": "lottie-react-native",
-  "version": "2.6.1",
+  "name": "@opengenius/lottie-react-native",
+  "version": "3.0.0",
   "description": "React Native bindings for Lottie",
   "main": "lib/index.js",
   "types": "src/js/index.d.ts",
@@ -14,6 +14,7 @@
     "run:ios": "react-native run-ios --project-path ./example/ios",
     "start:android": "adb shell am start -n com.example/.MainActivity",
     "run:android": "./gradlew installDebug && npm run start:android",
+    "build:android": "./gradlew assembleDebug",
     "lint": "eslint ./",
     "ci": "npm run lint",
     "publish:maven": "./gradlew clean check uploadArchives",
